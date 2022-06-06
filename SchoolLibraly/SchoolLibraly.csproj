@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<RootNamespace>SchoolLibraly</RootNamespace>
+		<UseWPF>true</UseWPF>
+		<StartupObject>SchoolLibraly.App</StartupObject>
+		<SignAssembly>false</SignAssembly>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Authors />
+		<PackageLicenseExpression>аа</PackageLicenseExpression>
+		<AssemblyVersion>1.0.0.1</AssemblyVersion>
+		<NeutralLanguage />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Prefer32Bit>true</Prefer32Bit>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Optimize>true</Optimize>
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<WarningLevel>3</WarningLevel>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MathCore.WPF" Version="0.0.30" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="5.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.13">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="5.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SchoolLibraly.DAL\SchoolLibraly.DAL.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+</Project>
