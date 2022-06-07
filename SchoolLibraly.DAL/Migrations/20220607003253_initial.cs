@@ -7,18 +7,16 @@ namespace SchoolLibraly.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Buyers",
+                name: "BookUrls",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Buyers", x => x.Id);
+                    table.PrimaryKey("PK_BookUrls", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,18 +54,11 @@ namespace SchoolLibraly.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BuyerId = table.Column<int>(type: "int", nullable: true)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Buyers_BuyerId",
-                        column: x => x.BuyerId,
-                        principalTable: "Buyers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +68,7 @@ namespace SchoolLibraly.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
+                    BookUrlId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -84,9 +76,37 @@ namespace SchoolLibraly.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Books_BookUrls_BookUrlId",
+                        column: x => x.BookUrlId,
+                        principalTable: "BookUrls",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Books_Categorys_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categorys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Buyers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Buyers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Buyers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -100,7 +120,7 @@ namespace SchoolLibraly.DAL.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BookId = table.Column<int>(type: "int", nullable: true),
                     SellerId = table.Column<int>(type: "int", nullable: true),
-                    BuyerId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,37 +132,23 @@ namespace SchoolLibraly.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Deals_Buyers_BuyerId",
-                        column: x => x.BuyerId,
-                        principalTable: "Buyers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Deals_Sellers_SellerId",
                         column: x => x.SellerId,
                         principalTable: "Sellers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Carts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DealId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_Deals_DealId",
-                        column: x => x.DealId,
-                        principalTable: "Deals",
+                        name: "FK_Deals_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_BookUrlId",
+                table: "Books",
+                column: "BookUrlId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_CategoryId",
@@ -150,9 +156,9 @@ namespace SchoolLibraly.DAL.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_DealId",
-                table: "Carts",
-                column: "DealId");
+                name: "IX_Buyers_UserId",
+                table: "Buyers",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deals_BookId",
@@ -160,28 +166,20 @@ namespace SchoolLibraly.DAL.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deals_BuyerId",
-                table: "Deals",
-                column: "BuyerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Deals_SellerId",
                 table: "Deals",
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_BuyerId",
-                table: "Users",
-                column: "BuyerId");
+                name: "IX_Deals_UserId",
+                table: "Deals",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Carts");
-
-            migrationBuilder.DropTable(
-                name: "Users");
+                name: "Buyers");
 
             migrationBuilder.DropTable(
                 name: "Deals");
@@ -190,10 +188,13 @@ namespace SchoolLibraly.DAL.Migrations
                 name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Buyers");
+                name: "Sellers");
 
             migrationBuilder.DropTable(
-                name: "Sellers");
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "BookUrls");
 
             migrationBuilder.DropTable(
                 name: "Categorys");

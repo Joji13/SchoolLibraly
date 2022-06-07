@@ -26,10 +26,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		
 		<PackageReference Include="MathCore.WPF" Version="0.0.30" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.13" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.13" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="5.0.13" />
+
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.13">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

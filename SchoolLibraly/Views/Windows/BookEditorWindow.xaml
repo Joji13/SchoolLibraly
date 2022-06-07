@@ -7,12 +7,12 @@
         xmlns:vm="clr-namespace:SchoolLibraly.ViewModels"
         Title="BookEditorWindow"
         MinHeight="145"
-        Width="358" Height="145"
+        Width="450" Height="300"
         d:DataContext="{d:DesignInstance vm:BookEditorViewModel, IsDesignTimeCreatable=True}">
     <DockPanel Margin="3">
         <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center"
                    Margin="0,15,0,10" 
-                   Text="{Binding BookId, StringFormat=Книга ID:{0}}" />
+                   Text="{Binding Id, StringFormat=Книга ID:{0}}" />
         <UniformGrid Rows="1" DockPanel.Dock="Bottom" Margin="5" HorizontalAlignment="Right">
             <Button Content="Ok" Margin="3" Padding="20,3" FontWeight="Bold" IsDefault="True"
                     Command="{StaticResource DialogResultCommand}"

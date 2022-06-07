@@ -9,6 +9,7 @@
              xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              d:DataContext="{d:DesignInstance {x:Type vm:BooksViewModel}, IsDesignTimeCreatable=True}"
              d:DesignWidth="800" d:DesignHeight="450">
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
@@ -47,7 +48,25 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                
             </DockPanel>
+
         </GroupBox>
+        <StackPanel Grid.Column="2">
+            <UniformGrid Columns="2">
+                <TextBlock 
+                    Margin="10" 
+                    VerticalAlignment="Center" 
+                    Text="Название: " />
+
+                <TextBlock
+                           Margin="10" 
+                    VerticalAlignment="Center" 
+                    Cursor="Hand" 
+                    Text="{Binding Name}"
+                    TextWrapping="Wrap">
+                </TextBlock>
+            </UniformGrid>
+        </StackPanel>
     </Grid>
 </UserControl>

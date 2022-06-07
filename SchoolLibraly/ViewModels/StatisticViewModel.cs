@@ -54,9 +54,6 @@ namespace SchoolLibraly.ViewModels
             
 
             Bestsellers.AddClear(await bestsellers_query.ToArrayAsync());
-
-            //foreach (var bestseller in await bestsellers_query.ToArrayAsync())
-            //    Bestsellers.Add(bestseller);
         }
 
         #endregion

@@ -20,7 +20,7 @@ namespace SchoolLibraly.ViewModels
         #region Title : string - Заголовок
 
         /// <summary>Заголовок</summary>
-        private string _Title = "Расписание";
+        private string _Title = "Библиотека";
 
         /// <summary>Заголовок</summary>
         public string Title { get => _Title; set => Set(ref _Title, value); }

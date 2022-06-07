@@ -20,11 +20,7 @@ namespace SchoolLibraly.Data
 
                    case "MSSQL":
                        opt.UseSqlServer(Configuration.GetConnectionString(type));
-                       break;
-                   case "SQLite":
-                       opt.UseSqlite(Configuration.GetConnectionString(type));
-                       break;
-
+                       break;                 
                }
            })
            .AddTransient<DbInitializer>()

@@ -23,7 +23,7 @@ namespace SchoolLibraly.Services
             _Deals = Deals;
         }
 
-        public async Task<Deal> MakeADeal(string BookName, Seller Seller, Buyer Buyer, decimal Price)
+        public async Task<Deal> MakeADeal(string BookName, Seller Seller, User User, decimal Price)
         {
             var book = await _Books.Items.FirstOrDefaultAsync(b => b.Name == BookName).ConfigureAwait(false);
             if (book is null) return null;
@@ -32,13 +32,11 @@ namespace SchoolLibraly.Services
             {
                 Book = book,
                 Seller = Seller,
-                Buyer = Buyer,
+                User = User,
                 Price = Price
             };
 
             return await _Deals.AddAsync(deal);
         }
-
-
     }
 }

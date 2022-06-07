@@ -10,7 +10,7 @@ namespace SchoolLibraly.DAL
         public override IQueryable<Deal> Items => base.Items
            .Include(item => item.Book)
            .Include(item => item.Seller)
-           .Include(item => item.Buyer)
+           .Include(item => item.User)
         ;
 
         public DealsRepository(SchoolLibralyBD db) : base(db) { }

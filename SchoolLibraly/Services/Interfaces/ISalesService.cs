@@ -8,6 +8,6 @@ namespace SchoolLibraly.Services.Interfaces
     {
         IEnumerable<Deal> Deals { get; }
 
-        Task<Deal> MakeADeal(string BookName, Seller Seller, Buyer Buyer, decimal Price);
+        Task<Deal> MakeADeal(string BookName, Seller Seller, User User, decimal Price);
     }
 }

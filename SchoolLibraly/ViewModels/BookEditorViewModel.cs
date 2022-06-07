@@ -8,7 +8,7 @@ namespace SchoolLibraly.ViewModels
     {
         #region BookId : int - Идентификатор книги
 
-        public int BookId { get; }
+        public int Id { get; }
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace SchoolLibraly.ViewModels
 
         public BookEditorViewModel(Book book)
         {
-            BookId = book.Id;
+            Id = book.Id;
             Name = book.Name;
         }
     }

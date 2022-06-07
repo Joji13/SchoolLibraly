@@ -8,14 +8,14 @@ namespace SchoolLibraly.DAL.Entityes
 { 
     public class User : Entity
     {
+        public ICollection<Buyer> Buyers { get; set; } = new HashSet<Buyer>();
         [Required]
         public string Login { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public Buyer Buyer { get; set; } 
-
-        public override string ToString() => $"Покупатель {Buyer} {Login} {Password}";
+        
+        public override string ToString() => $"Покупатель {Login} {Password}";
     }
 }
 

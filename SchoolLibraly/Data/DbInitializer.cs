@@ -38,11 +38,13 @@ namespace SchoolLibraly.Data
             if (await _db.Books.AnyAsync()) return;
 
             await InitializeCategories();
+            await InitializeBookUrls();
             await InitializeBooks();
             await InitializeSellers();
+            await InitializeUsers();
             await InitializeBuyers();
             await InitializeDeals();
-
+            
             _Logger.LogInformation("Инициализация БД выполнена за {0} с", timer.Elapsed.TotalSeconds);
         }
 
@@ -63,7 +65,23 @@ namespace SchoolLibraly.Data
 
             _Logger.LogInformation("Инициализация категорий выполнена за {0} мс", timer.ElapsedMilliseconds);
         }
+        private const int __BookUrlsCount = 10;
+        private BookUrl[] _BookUrls;
+        private async Task InitializeBookUrls()
+        {
+            var timer = Stopwatch.StartNew();
+            _Logger.LogInformation("Инициализация книг...");
 
+            _BookUrls = new BookUrl[__BookUrlsCount];
+            for (var i = 0; i < __BookUrlsCount; i++)
+                _BookUrls[i] = new BookUrl { Name = $"Ссылка {i + 1}" };
+
+            await _db.BookUrls.AddRangeAsync(_BookUrls);
+            await _db.SaveChangesAsync();
+
+
+            _Logger.LogInformation("Инициализация книг выполнена за {0} мс", timer.ElapsedMilliseconds);
+        }
         private const int __BooksCount = 10;
         private Book[] _Books;
         private async Task InitializeBooks()
@@ -76,7 +94,9 @@ namespace SchoolLibraly.Data
                .Select(i => new Book
                {
                    Name = $"Книга {i}",
-                   Category = rnd.NextItem(_Categories)
+                   Description = @"Описание",
+                   Category = rnd.NextItem(_Categories),
+                   BookUrl = rnd.NextItem(_BookUrls)
                })
                .ToArray();
 
@@ -85,6 +105,7 @@ namespace SchoolLibraly.Data
 
             _Logger.LogInformation("Инициализация книг выполнена за {0} мс", timer.ElapsedMilliseconds);
         }
+        
 
         private const int __SellersCount = 10;
         private Seller[] _Sellers;
@@ -107,7 +128,26 @@ namespace SchoolLibraly.Data
 
             _Logger.LogInformation("Инициализация продавцов выполнена за {0} мс", timer.ElapsedMilliseconds);
         }
+        private const int __UsersCount = 10;
+        private User[] _Users;
+        private async Task InitializeUsers()
+        {
+            var timer = Stopwatch.StartNew();
+            _Logger.LogInformation("Инициализация покупателей...");
 
+            _Users = Enumerable.Range(1, __UsersCount)
+               .Select(i => new User
+               {
+                   Login = $"Логин",
+                   Password = $"Пароль"
+               })
+               .ToArray();
+
+            await _db.Users.AddRangeAsync(_Users);
+            await _db.SaveChangesAsync();
+
+            _Logger.LogInformation("Инициализация покупателей выполнена за {0} мс", timer.ElapsedMilliseconds);
+        }
         private const int __BuyersCount = 10;
         private Buyer[] _Buyers;
         private async Task InitializeBuyers()
@@ -130,7 +170,7 @@ namespace SchoolLibraly.Data
             _Logger.LogInformation("Инициализация покупателей выполнена за {0} мс", timer.ElapsedMilliseconds);
         }
 
-        private const int __DealsCount = 1000;
+        private const int __DealsCount = 100;
         private async Task InitializeDeals()
         {
             var timer = Stopwatch.StartNew();
@@ -143,7 +183,7 @@ namespace SchoolLibraly.Data
                {
                    Book = rnd.NextItem(_Books),
                    Seller = rnd.NextItem(_Sellers),
-                   Buyer = rnd.NextItem(_Buyers),
+                   User = rnd.NextItem(_Users),
                    Price = (decimal)(rnd.NextDouble() * 4000 + 700)
                });
 
@@ -152,5 +192,6 @@ namespace SchoolLibraly.Data
 
             _Logger.LogInformation("Инициализация сделок выполнена за {0} мс", timer.ElapsedMilliseconds);
         }
+        
     }
 }

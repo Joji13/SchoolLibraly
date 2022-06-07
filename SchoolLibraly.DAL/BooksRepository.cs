@@ -9,6 +9,7 @@ namespace SchoolLibraly.DAL
     {
         public override IQueryable<Book> Items => base.Items.Include(item => item.Category);
 
+
         public BooksRepository(SchoolLibralyBD db) : base(db) { }
     }
 }

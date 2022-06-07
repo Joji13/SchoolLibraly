@@ -10,7 +10,7 @@ using SchoolLibraly.DAL.Context;
 namespace SchoolLibraly.DAL.Migrations
 {
     [DbContext(typeof(SchoolLibralyBD))]
-    [Migration("20220606121119_initial")]
+    [Migration("20220607003253_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,9 @@ namespace SchoolLibraly.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BookUrlId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
@@ -40,9 +43,27 @@ namespace SchoolLibraly.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookUrlId");
+
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.BookUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookUrls");
                 });
 
             modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Buyer", b =>
@@ -62,26 +83,14 @@ namespace SchoolLibraly.DAL.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Buyers");
-                });
-
-            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("DealId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DealId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Buyers");
                 });
 
             modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Category", b =>
@@ -110,22 +119,22 @@ namespace SchoolLibraly.DAL.Migrations
                     b.Property<int?>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BuyerId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("SellerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("BuyerId");
-
                     b.HasIndex("SellerId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Deals");
                 });
@@ -159,9 +168,6 @@ namespace SchoolLibraly.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BuyerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -172,27 +178,31 @@ namespace SchoolLibraly.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerId");
-
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Book", b =>
                 {
+                    b.HasOne("SchoolLibraly.DAL.Entityes.BookUrl", "BookUrl")
+                        .WithMany("Books")
+                        .HasForeignKey("BookUrlId");
+
                     b.HasOne("SchoolLibraly.DAL.Entityes.Category", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId");
 
+                    b.Navigation("BookUrl");
+
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Cart", b =>
+            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Buyer", b =>
                 {
-                    b.HasOne("SchoolLibraly.DAL.Entityes.Deal", "Deal")
-                        .WithMany()
-                        .HasForeignKey("DealId");
+                    b.HasOne("SchoolLibraly.DAL.Entityes.User", "User")
+                        .WithMany("Buyers")
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Deal");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Deal", b =>
@@ -201,33 +211,34 @@ namespace SchoolLibraly.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("BookId");
 
-                    b.HasOne("SchoolLibraly.DAL.Entityes.Buyer", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId");
-
                     b.HasOne("SchoolLibraly.DAL.Entityes.Seller", "Seller")
                         .WithMany()
                         .HasForeignKey("SellerId");
 
+                    b.HasOne("SchoolLibraly.DAL.Entityes.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Book");
 
-                    b.Navigation("Buyer");
-
                     b.Navigation("Seller");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.User", b =>
+            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.BookUrl", b =>
                 {
-                    b.HasOne("SchoolLibraly.DAL.Entityes.Buyer", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId");
-
-                    b.Navigation("Buyer");
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("SchoolLibraly.DAL.Entityes.Category", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("SchoolLibraly.DAL.Entityes.User", b =>
+                {
+                    b.Navigation("Buyers");
                 });
 #pragma warning restore 612, 618
         }

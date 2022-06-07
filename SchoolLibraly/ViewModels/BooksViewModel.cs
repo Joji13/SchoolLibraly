@@ -54,7 +54,7 @@ namespace SchoolLibraly.ViewModels
 
         #endregion
 
-        #region BooksFilter : string - Искомое слово
+        #region BooksFilter : string - Поиск слов
 
         /// <summary>Искомое слово</summary>
         private string _BooksFilter;
@@ -86,7 +86,7 @@ namespace SchoolLibraly.ViewModels
 
         #endregion
 
-        #region Command LoadDataCommand - Команда загрузки данных из репозитория
+        #region Command LoadDataCommand - Команда загрузки данных 
 
         /// <summary>Команда загрузки данных из репозитория</summary>
         private ICommand _LoadDataCommand;
@@ -158,14 +158,14 @@ namespace SchoolLibraly.ViewModels
             if (ReferenceEquals(SelectedBook, book_to_remove))
                 SelectedBook = null;
         }
-
+ 
         #endregion
 
         public BooksViewModel()
             : this(new DebugBooksRepository(), new UserDialogService())
         {
             if (!App.IsDesignTime)
-                throw new InvalidOperationException("Данный конструктор не предназначен для использования вне дизайнера VisualStudio");
+                throw new InvalidOperationException("Ошибка сервера!");
 
             _ = OnLoadDataCommandExecuted();
         }

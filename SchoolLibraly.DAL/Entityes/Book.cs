@@ -6,6 +6,8 @@ namespace SchoolLibraly.DAL.Entityes
     {
         public Category Category { get; set; }
 
+        public BookUrl BookUrl { get; set; }
+
         public string Description { get; set; }
 
         public override string ToString() => $"Книга {Name}";

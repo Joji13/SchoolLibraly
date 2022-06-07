@@ -12,8 +12,8 @@ namespace SchoolLibraly.DAL.Entityes
 
         public Seller Seller { get; set; }
 
-        public Buyer Buyer { get; set; }
+        public User User { get; set; }
 
-        public override string ToString() => $"Сделка по продаже {Book}: {Seller}, {Buyer}, {Price:C}";
+        public override string ToString() => $"Сделка по продаже {Book}: {Seller}, {User}, {Price:C}";
     }
 }
